@@ -6,6 +6,7 @@
   "dependencies": {
     "three": "^0.71.0", 
     "vrjs-axis" : "*", 
-    "vrjs-trackr-key" : "*"
+    "vrjs-trackr-key" : "*", 
+    "vrjs-trackr-g4": "*"
   }
 }

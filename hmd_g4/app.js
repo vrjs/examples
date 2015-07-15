@@ -11,6 +11,9 @@ var active_renderer;
 var keytrackr = require('vrjs-trackr-key')
 var trackr = keytrackr.make(THREE);
 
+var g4trackr = require('vrjs-trackr-g4')
+var camera_trackr = g4trackr.make(THREE);
+
 init();
 animate();
 
@@ -20,12 +23,16 @@ function init() {
     scene.fog = new THREE.Fog(back_color, 500, 10000);
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.y = 50;
-    camera.position.z = 1500;
-
-    trackr.channels[2].offset = new THREE.Vector3(0, 50, 1500);
-    trackr.channels[2].scale = new THREE.Vector3(100, 100, 100);
-    trackr.add(camera, 2);
+    
+    scene.add(camera);
+    camera_trackr.add(camera, 0);
+    
+    // once the tracking data is applied, we need to rotate the camera so its in line
+    // with how the tracker is mounted to the hmd
+    camera_trackr.post_process(0, function() {
+        camera.rotateOnAxis(new THREE.Vector3( 0, 0, 1 ), -Math.PI/2);
+        camera.rotateOnAxis(new THREE.Vector3( 0, 1, 0 ), -Math.PI)
+    })
 
     geometry = new THREE.BoxGeometry(200, 200, 200);
     material = new THREE.MeshBasicMaterial({
@@ -79,6 +86,7 @@ function init() {
 
 function animate() {
     trackr.poll()
+    camera_trackr.poll()
     requestAnimationFrame(animate);
 
     renderer.setClearColor(back_color);
