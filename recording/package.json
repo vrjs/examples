@@ -7,6 +7,7 @@
     "three": "^0.71.0", 
     "vrjs-axis" : "*", 
     "vrjs-trackr-key" : "*", 
-    "vrjs-trackr-g4" : "*"
+    "vrjs-trackr-g4" : "*", 
+    "vrjs-util-recorder" : "file:../../util-recorder"
   }
 }

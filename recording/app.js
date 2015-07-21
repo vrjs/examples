@@ -14,6 +14,10 @@ var trackr = keytrackr.make(THREE);
 var g4 = require('vrjs-trackr-g4')
 var g4_trackr = g4.make(THREE);
 
+var recorder = require('../index');
+var r = new recorder();
+
+
 init();
 animate();
 
