@@ -1,0 +1,12 @@
+{
+  "name"    : "your-app",
+  "version" : "0.1.0",
+  "main"    : "main.js", 
+
+  "dependencies": {
+    "three": "^0.71.0", 
+    "vrjs-axis" : "*", 
+    "vrjs-trackr-key" : "*", 
+    "vrjs-trackr-g4" : "*"
+  }
+}
