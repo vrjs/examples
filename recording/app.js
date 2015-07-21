@@ -14,7 +14,7 @@ var trackr = keytrackr.make(THREE);
 var g4 = require('vrjs-trackr-g4')
 var g4_trackr = g4.make(THREE);
 
-var recorder = require('../index');
+var recorder = require('vrjs-util-recorder');
 var r = new recorder();
 
 
@@ -41,16 +41,21 @@ function init() {
     });
 
     // add cube and attach it to channel 0 of tracker
-    mesh = new THREE.Mesh(geometry, material);
+    var mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
     g4_trackr.scale(0, new THREE.Vector3(10, 10, 10));
     g4_trackr.add(mesh, 0);
 
     // add another cube and attach it to channel 1 of tracker
-    mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    var mesh2 = new THREE.Mesh(geometry, material);
+    scene.add(mesh2);
     g4_trackr.scale(1, new THREE.Vector3(10, 10, 10));
-    g4_trackr.add(mesh, 1);
+    g4_trackr.add(mesh2, 1);
+
+    r.track(mesh);
+    r.track(mesh2);
+    r.start()
+
 
     var groundTexture = THREE.ImageUtils.loadTexture("three/textures/terrain/grasslight-big.jpg");
     groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
@@ -84,6 +89,17 @@ function init() {
     enter_debug()
 
     document.body.appendChild(renderer.domElement);
+
+   // window.addEventListener("beforeunload", cleanup, false);
+
+}
+
+function cleanup() {
+    r.stop()
+    console.log("Saving data");
+    r.persist("recording_example.json", function() {
+        window.close();
+    })
 }
 
 function animate() {
